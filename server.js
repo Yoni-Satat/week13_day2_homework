@@ -30,6 +30,30 @@ MongoClient.connect('mongodb://localhost:27017', function(err, client) {
     });
   });
 
+  server.get('/api/pets', function(req, res) {
+    db.collection('pets').find().toArray(function(err, result) {
+      if(err) {
+        console.log(err);
+        res.status(500);
+        res.send();
+      }
+      res.json(result);
+    });
+  });
+
+  server.delete('/api/pets', function(req, res) {
+    db.collection('pets').remove({}, function(err, result) {
+      if(err) {
+        console.log(err);
+        res.status(500);
+        res.send();
+        return;
+      }
+      res.status(204);
+      res.send();
+    });
+  });
+
 
 
   server.listen(3000, function(){
